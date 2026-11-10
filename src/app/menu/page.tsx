@@ -27,12 +27,12 @@ const layout = [
   "lg:col-span-5 lg:mt-6",
 ]
 const ratios = ["lg:aspect-[5/6]", "lg:aspect-[3/4]", "lg:aspect-[2/3]", "lg:aspect-[3/4]", "lg:aspect-[2/3]", "lg:aspect-[5/4]"]
-const traySizes = "(min-width: 1024px) 34vw, (min-width: 640px) 46vw, 92vw"
+const traySizes = "(min-width: 1024px) 34vw, 46vw"
 
 export default function MenuPage() {
   const trays = spread.filter((d) => d.group === "trays")
   const [tomahawk, ...grill] = spread.filter((d) => d.group === "grill")
-  const plates = spread.filter((d) => d.group === "plates")
+  const [featured, ...board] = spread.filter((d) => d.group === "plates")
 
   return (
     <>
@@ -58,13 +58,13 @@ export default function MenuPage() {
           <h2 id="trays-title" className="kicker border-t-2 border-coal pt-4">
             By the tray
           </h2>
-          <ul className="mt-10 grid grid-cols-1 gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-12">
+          <ul className="mt-10 grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-8 sm:gap-y-14 lg:grid-cols-12">
             {trays.map((dish, i) => {
               const body = (
                 <>
                   <Pan photo={dish.photo} ratio={`aspect-[3/4] ${ratios[i] ?? ""}`} sizes={traySizes} priority={i === 0} />
-                  <h3 className="display mt-5 text-d3">{dish.name}</h3>
-                  <p className="mt-1 text-mute">{dish.note}</p>
+                  <h3 className="display mt-4 text-[1.5rem] leading-[0.95] sm:mt-5 sm:text-d3">{dish.name}</h3>
+                  <p className="mt-1 text-[0.95rem] text-mute sm:text-[1.0625rem]">{dish.note}</p>
                 </>
               )
               // The first pan is above the fold on mobile: render it straight away, no reveal.
@@ -94,46 +94,50 @@ export default function MenuPage() {
               <Pan photo={tomahawk.photo} ratio="aspect-[4/5]" sizes="(min-width: 1024px) 44vw, 92vw" label={tomahawk.name} labelAt="bl" objectPosition="50% 35%" />
             </Reveal>
           </div>
-          <ul className="grid gap-12 sm:grid-cols-3 lg:col-span-5 lg:col-start-8 lg:grid-cols-1 lg:pt-44">
+          <ul className="grid grid-cols-3 gap-3 sm:gap-6 lg:col-span-5 lg:col-start-8 lg:grid-cols-1 lg:gap-12 lg:pt-44">
             {grill.map((dish, i) => (
               <Reveal as="li" key={dish.id} i={i} className={i === 1 ? "lg:ml-16" : "lg:mr-16"}>
-                <Pan photo={dish.photo} ratio="aspect-[4/5] lg:aspect-[5/4]" sizes="(min-width: 1024px) 30vw, (min-width: 640px) 30vw, 92vw" />
-                <h3 className="display mt-5 text-d3">{dish.name}</h3>
-                <p className="mt-1 text-foil">{dish.note}</p>
+                <Pan photo={dish.photo} ratio="aspect-[4/5] lg:aspect-[5/4]" sizes="(min-width: 1024px) 30vw, 31vw" />
+                <h3 className="display mt-3 text-[1.15rem] leading-[0.95] sm:mt-5 sm:text-d3">{dish.name}</h3>
+                <p className="mt-1 hidden text-foil sm:block">{dish.note}</p>
               </Reveal>
             ))}
           </ul>
         </div>
       </section>
 
-      {/* Plated: a loose wall of plates in their own shapes, like the feed they came from. */}
+      {/* Plated: a dinner board. One plate big and round on the left, the rest as a written menu with small round plates. */}
       <section className="on-light bg-cream py-20 lg:py-28" aria-labelledby="plates-title">
-        <div className="wrap">
-          <div className="grid gap-6 lg:grid-cols-12 lg:items-end">
-            <h2 id="plates-title" className="display text-d1 lg:col-span-7">
-              Plated, <span className="text-red">Karibean soul.</span>
-            </h2>
-            <p className="max-w-[38ch] text-[1.1rem] lg:col-span-5">
-              Dinners Krave Bk has cooked and posted over the years. Ask which ones they can bring to your event.
-            </p>
-          </div>
-          <ul className="mt-14 gap-8 sm:columns-2 lg:columns-3">
-            {plates.map((dish, i) => (
-              <Reveal as="li" key={dish.id} i={i % 3} className="mb-10 break-inside-avoid">
-                <figure className="pan zoom">
-                  <div className="pan-in">
-                    <Image
-                      src={dish.photo.src}
-                      alt={dish.photo.alt}
-                      width={dish.photo.width}
-                      height={dish.photo.height}
-                      sizes="(min-width: 1024px) 30vw, (min-width: 640px) 46vw, 92vw"
-                      className="grade h-auto w-full"
-                    />
+        <div className="wrap grid gap-12 lg:grid-cols-12 lg:gap-10">
+          <div className="lg:col-span-4">
+            <div className="lg:sticky lg:top-28">
+              <h2 id="plates-title" className="display text-[clamp(2.75rem,4.6vw,4.5rem)] leading-[0.9]">
+                Plated, <span className="block text-red">Karibean soul.</span>
+              </h2>
+              <p className="mt-6 max-w-[34ch] text-[1.1rem]">Dinners Krave Bk has cooked and posted over the years. Ask which ones they can bring to your event.</p>
+              <Reveal variant="pan" className="mt-10 w-[78%] max-w-[22rem] lg:w-full">
+                <figure className="zoom">
+                  <div className="relative aspect-square overflow-hidden rounded-full ring-[6px] ring-white">
+                    <Image src={featured.photo.src} alt={featured.photo.alt} fill sizes="(min-width: 1024px) 26vw, 78vw" className="grade object-cover" />
                   </div>
+                  <figcaption className="mt-5">
+                    <span className="display block text-d3">{featured.name}</span>
+                    <span className="text-mute">{featured.note}</span>
+                  </figcaption>
                 </figure>
-                <h3 className="display mt-4 text-[1.9rem] leading-none">{dish.name}</h3>
-                <p className="mt-1 text-mute">{dish.note}</p>
+              </Reveal>
+            </div>
+          </div>
+          <ul className="grid content-start gap-x-10 border-b-2 border-coal sm:grid-cols-2 lg:col-span-8">
+            {board.map((dish, i) => (
+              <Reveal as="li" key={dish.id} i={i % 2} className="zoom flex items-center gap-5 border-t-2 border-coal py-5">
+                <div className="relative aspect-square w-24 shrink-0 overflow-hidden rounded-full ring-4 ring-white md:w-28">
+                  <Image src={dish.photo.src} alt={dish.photo.alt} fill sizes="112px" className="grade object-cover" />
+                </div>
+                <div className="min-w-0">
+                  <h3 className="display text-[1.6rem] leading-[0.95] md:text-[1.9rem]">{dish.name}</h3>
+                  <p className="mt-1 text-mute">{dish.note}</p>
+                </div>
               </Reveal>
             ))}
           </ul>

@@ -34,7 +34,7 @@ All from the owner's Instagram: reel frames for the trays, 2021 to 2023 feed pos
 ## Pages
 
 - `/` Coal hero ("Katch the Krave.", salmon pan hanging into the next band) → cream "Soul cooking, by the tray." with three staggered pans → coal smoker band (short ribs full bleed, tomahawk and jerk chicken pans) → red "Meet the chefs." with the chefs photo and their "booked and busy" line → cream CTA with the phone number huge.
-- `/menu` "The spread." Six trays in an offset grid (first pan renders without a reveal for LCP), "Off the grill." coal band with the tomahawk big, "Plated, Karibean soul." as a masonry wall of plates in their own shapes, then a red Kravegria band ending in "Build your menu."
+- `/menu` "The spread." Six trays in an offset grid (first pan renders without a reveal for LCP), "Off the grill." coal band with the tomahawk big, "Plated, Karibean soul." as a dinner board: one big round plate held on the left, the rest as a written menu with small round plates (trays are two across on phones, so the page is half as long), then a red Kravegria band ending in "Build your menu."
 - `/contact` "Plan your event." Phone huge on coal with the buffet line photo, event form on a cream panel; then the staff photo beside a plain "Good to have ready when you call" checklist.
 - 404: "This page isn't on the menu." on cream, so it separates from the coal footer.
 
