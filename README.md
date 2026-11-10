@@ -1,62 +1,36 @@
-# Purpose
-This repository is the base template that should be used for all future businesses, including basic files such as navbar, footer, and other configs.
+# Krave Bk Catering
 
-# Business Name
+Website for **Krave Bk Catering**, a soul food catering business that serves its food by the foil tray at events. "We cater to all your needs. Soul cooking." Katch the Krave.
 
-Replace this README with business-specific details.
+The site is built as the tray spread under the neon sign: coal night backgrounds, the BK red, and every photo in a foil pan frame with a masking-tape label. Display type is Big Shoulders, text is DM Sans. Full spec: `DESIGN.md`. Sources and the list of things to confirm with the owner: `research/BRIEF.md`.
 
----
+## Pages
 
-## 🚀 Overview
+| Route | Content |
+|---|---|
+| `/` | Hero, trays, the smoker, the family, call to action |
+| `/menu` | The spread: trays and grill dishes from their own jobs |
+| `/contact` | Phone, Instagram, and an event form that writes a text to Krave Bk |
 
-Short description of the business and what this website is for.
+## Stack
 
-Example:
-"This website serves as the official online presence for [Business Name], showcasing services, contact information, and brand identity."
+- Next.js 16 (App Router), React 19, TypeScript
+- Tailwind CSS 3 with brand tokens in `tailwind.config.ts`
+- Fonts via `next/font/google`, photos via `next/image`
+- No backend: the form opens the visitor's messages app with the text written for them
 
----
+## Structure
 
-## 🛠 Tech Stack
+- `src/lib/site.ts` every business detail (phone, Instagram, tagline)
+- `src/lib/spread.ts` the dishes; `src/lib/photos.ts` the images with sizes and alt text
+- `src/lib/components/` `Navbar`, `Footer`, `Pan`, `Reveal`, `EventForm`
+- `research/` the brief, saved Instagram posts and reel frames
 
-- Next.js (App Router)
-- TypeScript
-- Tailwind CSS
-- Hosted on Vercel
-
----
-
-## 📂 Project Structure
-
-- `src/app` → App Router (homepage, layout, globals)
-- `src/app/pages` → Site pages (About, Contact, etc.)
-- `src/lib/components` → Shared UI components (Navbar/Footer)
-- `public` → Static assets
-
----
-
-## 🧑‍💻 Development
-
-Install dependencies:
+## Run
 
 ```bash
 npm install
-npm install --save-dev @types/react
+npm run dev      # http://localhost:3000
+npm run build    # production build
+npm run lint     # TypeScript check
 ```
-
-Run locally:
-
-```bash
-npm run dev
-```
-
----
-
-## ✏️ Customization Checklist
-
-- [ ] Replace Business Name in navbar + footer
-- [ ] Update metadata in `src/app/layout.tsx`
-- [ ] Replace homepage content (`src/app/page.tsx`)
-- [ ] Update About + Contact pages (`src/app/pages/*`)
-- [ ] Replace favicon + assets in `public/`
-- [ ] Update SEO metadata
-- [ ] (Optional) Update Novus credit link text / URL in the footer

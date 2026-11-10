@@ -40,3 +40,7 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 node_modules
+
+# research source videos (large; frames are kept)
+research/reels/*.mp4
+research/audit*/
