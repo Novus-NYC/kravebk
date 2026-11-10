@@ -14,19 +14,20 @@ export default function Footer() {
             alt=""
             width={photos.logo.width}
             height={photos.logo.height}
-            sizes="160px"
-            className="neon-logo h-36 w-auto md:h-44"
+            sizes="(min-width: 768px) 160px, 128px"
+            className="h-32 w-32 md:h-40 md:w-40"
           />
         </Link>
         <div className="flex flex-col gap-3 md:items-end">
           <p className="display text-d3 text-cream">{site.tagline}.</p>
+          <p className="text-foil">Caribbean soul cooking from {site.area}.</p>
           <a href={site.phoneHref} className="btn-red w-fit">
             Call {site.phoneDisplay}
           </a>
         </div>
       </div>
       <div className="wrap">
-        <div className="flex flex-col gap-x-10 gap-y-1 border-t border-white/15 py-5 md:flex-row md:flex-wrap md:items-center">
+        <nav aria-label="Footer" className="flex flex-col gap-x-10 gap-y-1 border-t border-white/15 py-5 md:flex-row md:flex-wrap md:items-center">
           {nav.map((item) => (
             <Link key={item.href} href={item.href} className="link-under inline-flex min-h-[44px] w-fit items-center">
               {item.label}
@@ -36,7 +37,7 @@ export default function Footer() {
             Instagram {site.instagramHandle}
             <span className="sr-only"> (opens in a new tab)</span>
           </a>
-        </div>
+        </nav>
         <div className="flex flex-col gap-1 border-t border-white/15 py-5 text-foil sm:flex-row sm:items-center sm:justify-between">
           <p>
             © {new Date().getFullYear()} {site.legalName}

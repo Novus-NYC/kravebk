@@ -17,7 +17,7 @@ type PanProps = {
 const labelPos = {
   tl: "left-4 top-4 -rotate-[1.5deg]",
   br: "bottom-4 right-4 rotate-[1deg]",
-  bl: "bottom-4 left-4 -rotate-[1deg]",
+  bl: "bottom-3 left-3 -rotate-[1deg] sm:bottom-4 sm:left-4",
 }
 
 /** A photo set in a foil half pan, optionally labeled with a strip of tape like a catering tray. */

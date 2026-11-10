@@ -9,18 +9,19 @@ const display = Big_Shoulders({ subsets: ["latin"], weight: ["800", "900"], vari
 const sans = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "700"], variable: "--font-sans", display: "swap" })
 
 const description =
-  "Krave Bk Catering: soul cooking by the tray. Glazed salmon, baked mac and cheese, collard greens, short ribs off the smoker. Call 917-340-0332 to plan your event."
+  "Krave Bk Catering, Brooklyn: Caribbean soul cooking by the tray. Glazed salmon, mac and cheese, collard greens, jerk chicken, oxtail rasta pasta. Call 917-340-0332 to plan your event."
+
+// Set NEXT_PUBLIC_SITE_URL to the real domain once it exists; Vercel's production URL is the fallback.
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ??
+  (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : "http://localhost:3104")
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3104"),
+  metadataBase: new URL(siteUrl),
   title: { default: "Krave Bk Catering · Katch the Krave", template: "%s · Krave Bk Catering" },
   description,
-  openGraph: {
-    title: "Krave Bk Catering",
-    description,
-    images: [{ url: "/images/tray-salmon.jpg", width: 720, height: 1280, alt: "A foil tray of glazed salmon on curly kale" }],
-    type: "website",
-  },
+  openGraph: { title: "Krave Bk Catering · Katch the Krave", description, url: "/", siteName: "Krave Bk Catering", locale: "en_US", type: "website" },
+  twitter: { card: "summary_large_image" },
 }
 
 export const viewport: Viewport = { themeColor: "#0E0D0D" }

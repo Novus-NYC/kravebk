@@ -81,8 +81,8 @@ export default function Navbar() {
             alt=""
             width={photos.logo.width}
             height={photos.logo.height}
-            sizes="56px"
-            className="neon-logo h-14 w-auto"
+            sizes="52px"
+            className="h-[52px] w-[52px]"
             preload
           />
         </Link>
@@ -141,7 +141,7 @@ export default function Navbar() {
           className="fixed inset-0 z-[60] flex flex-col overflow-y-auto bg-coal text-cream md:hidden"
         >
           <div className="wrap flex h-[var(--nav-h)] items-center justify-between">
-            <Image src={photos.logo.src} alt="" width={photos.logo.width} height={photos.logo.height} sizes="56px" className="neon-logo h-14 w-auto" />
+            <Image src={photos.logo.src} alt="" width={photos.logo.width} height={photos.logo.height} sizes="52px" className="h-[52px] w-[52px]" />
             <button type="button" onClick={close} className="inline-flex min-h-[44px] items-center gap-2 px-2 font-bold">
               Close <span aria-hidden="true" className="text-2xl leading-none">×</span>
             </button>
@@ -169,6 +169,7 @@ export default function Navbar() {
               </a>
               <a href={site.instagram} target="_blank" rel="noreferrer" className="btn-line text-cream">
                 Instagram {site.instagramHandle}
+                <span className="sr-only"> (opens in a new tab)</span>
               </a>
             </div>
           </div>

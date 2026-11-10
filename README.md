@@ -1,6 +1,6 @@
 # Krave Bk Catering
 
-Website for **Krave Bk Catering**, a soul food catering business that serves its food by the foil tray at events. "We cater to all your needs. Soul cooking." Katch the Krave.
+Website for **Krave Bk Catering**, a Brooklyn Caribbean soul food catering business that serves its food by the foil tray at events. "We cater to all your needs. Soul cooking." Katch the Krave.
 
 The site is built as the tray spread under the neon sign: coal night backgrounds, the BK red, and every photo in a foil pan frame with a masking-tape label. Display type is Big Shoulders, text is DM Sans. Full spec: `DESIGN.md`. Sources and the list of things to confirm with the owner: `research/BRIEF.md`.
 
@@ -8,8 +8,8 @@ The site is built as the tray spread under the neon sign: coal night backgrounds
 
 | Route | Content |
 |---|---|
-| `/` | Hero, trays, the smoker, the family, call to action |
-| `/menu` | The spread: trays and grill dishes from their own jobs |
+| `/` | Hero, trays, the smoker, meet the chefs, call to action |
+| `/menu` | The spread: trays, off the grill, plated dishes, Kravegria |
 | `/contact` | Phone, Instagram, and an event form that writes a text to Krave Bk |
 
 ## Stack
@@ -24,7 +24,7 @@ The site is built as the tray spread under the neon sign: coal night backgrounds
 - `src/lib/site.ts` every business detail (phone, Instagram, tagline)
 - `src/lib/spread.ts` the dishes; `src/lib/photos.ts` the images with sizes and alt text
 - `src/lib/components/` `Navbar`, `Footer`, `Pan`, `Reveal`, `EventForm`
-- `research/` the brief, saved Instagram posts and reel frames
+- `research/` the brief, saved Instagram posts (`instagram/`, `instagram-full/`) and reel frames
 
 ## Run
 

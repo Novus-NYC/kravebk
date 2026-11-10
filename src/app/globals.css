@@ -12,7 +12,8 @@ html {
 }
 
 body {
-  @apply bg-cream font-sans text-ink antialiased;
+  @apply font-sans text-ink antialiased;
+  background-color: #f5efe4;
   font-size: 1.0625rem;
   line-height: 1.6;
 }
@@ -26,9 +27,11 @@ body {
   outline: 3px solid #ff4747;
   outline-offset: 3px;
 }
-.on-light :focus-visible,
-.bg-cream :focus-visible {
+.on-light :focus-visible {
   outline-color: #d11a20;
+}
+.on-red :focus-visible {
+  outline-color: #f5efe4;
 }
 
 @layer components {
@@ -80,7 +83,7 @@ body {
 
   /* Masking tape with marker writing: how a caterer labels the pans. */
   .tape {
-    @apply inline-block bg-tape px-3 py-1.5 text-[0.95rem] font-bold uppercase leading-none tracking-[0.06em] text-coal;
+    @apply inline-block whitespace-nowrap bg-tape px-2.5 py-1.5 text-[0.8rem] font-bold uppercase leading-none tracking-[0.06em] text-coal sm:px-3 sm:text-[0.95rem];
     box-shadow: 0 1px 0 rgba(0, 0, 0, 0.12);
   }
 }
@@ -114,11 +117,6 @@ body {
 }
 .zoom:hover img {
   transform: scale(1.04);
-}
-
-/* The neon sign: the logo's black melts into dark surfaces. */
-.neon-logo {
-  mix-blend-mode: screen;
 }
 
 @media (prefers-reduced-motion: reduce) {

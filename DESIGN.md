@@ -12,7 +12,7 @@ Who visits: someone planning a birthday, church event, office lunch or shower wh
 |---|---|---|
 | `coal` | `#0E0D0D` | Night canvas: navbar, hero, smoker band, footer, mobile menu |
 | `ink` | `#161313` | Text on light |
-| `red` | `#D11A20` | The BK red: primary buttons, "Meet the family" band, the spread CTA, big phone number on cream |
+| `red` | `#D11A20` | The BK red: primary buttons, "Meet the chefs" band, Kravegria band, the spread CTA, big phone number on cream |
 | `neon` | `#FF4747` | Accent text on coal only (the neon sign): "Krave.", focus rings on dark |
 | `foil` | `#C9CED4` | Pan rims, kickers on coal |
 | `cream` | `#F5EFE4` | Day canvas: tray sections, contact form panel |
@@ -29,14 +29,14 @@ Bands alternate coal, cream, coal, red, cream so scrolling reads as a sequence. 
 
 ## Photos
 
-All from the owner's reels. One shared grade (`.grade`: contrast 1.06, saturate 1.08). Inside a `Pan` frame with a tape label, or as one big full-bleed crop (the short ribs on the smoker). Never a uniform grid: trays are staggered at different heights and ratios.
+All from the owner's Instagram: reel frames for the trays, 2021 to 2023 feed posts for the chefs, staff and plates. One shared grade (`.grade`: contrast 1.06, saturate 1.08). Inside a `Pan` frame with a tape label, or as one big full-bleed crop (the short ribs on the smoker). Never a uniform grid: trays are staggered at different heights and ratios.
 
 ## Pages
 
-- `/` Coal hero ("Katch the Krave.", salmon pan hanging into the next band) → cream "Soul cooking, by the tray." with three staggered pans → coal smoker band (short ribs full bleed, crab and salmon plate) → red "Meet the family." with the team photo and their "booked and busy" line → cream CTA with the phone number huge.
-- `/menu` "The spread." Six trays in an offset grid, the grill in a coal band, red "Build your menu." strip.
-- `/contact` "Plan your event." Phone huge on coal, event form on a cream panel that hangs into the cream "Good to have ready" list.
-- 404: "This page isn't on the menu."
+- `/` Coal hero ("Katch the Krave.", salmon pan hanging into the next band) → cream "Soul cooking, by the tray." with three staggered pans → coal smoker band (short ribs full bleed, tomahawk and jerk chicken pans) → red "Meet the chefs." with the chefs photo and their "booked and busy" line → cream CTA with the phone number huge.
+- `/menu` "The spread." Six trays in an offset grid (first pan renders without a reveal for LCP), "Off the grill." coal band with the tomahawk big, "Plated, Karibean soul." as a masonry wall of plates in their own shapes, then a red Kravegria band ending in "Build your menu."
+- `/contact` "Plan your event." Phone huge on coal with the buffet line photo, event form on a cream panel; then the staff photo beside a plain "Good to have ready when you call" checklist.
+- 404: "This page isn't on the menu." on cream, so it separates from the coal footer.
 
 ## Motion
 
@@ -45,3 +45,7 @@ Fade-up reveals and a top-down clip reveal on pans (the foil coming off). Slight
 ## Form
 
 The event form validates name and phone on blur and submit, then builds a text message and opens the messages app (`sms:+19173400332?&body=`). The success state shows the message with Copy and Call options. It says plainly that nothing is sent until the visitor presses send.
+
+## Focus
+
+One global focus ring (3px, neon red) for dark bands. Cream bands carry `on-light` (ring turns BK red) and red bands carry `on-red` (ring turns cream), so the ring always contrasts with what is behind it.

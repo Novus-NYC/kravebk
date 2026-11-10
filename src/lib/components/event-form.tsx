@@ -1,8 +1,9 @@
 "use client"
 
-import { useRef, useState, type FormEvent } from "react"
+import { useEffect, useRef, useState, type FormEvent } from "react"
+import { flushSync } from "react-dom"
 import { site } from "@/lib/site"
-import { spread } from "@/lib/spread"
+import { formDishes } from "@/lib/spread"
 
 /*
  * Krave Bk takes bookings by phone and text (Instagram bio). There is no email or booking system,
@@ -10,7 +11,7 @@ import { spread } from "@/lib/spread"
  * opens their messages app addressed to 917-340-0332. Nothing reaches Krave Bk until they press send.
  */
 const eventTypes = ["Birthday", "Church or community", "Office or work", "Wedding or shower", "Something else"]
-const dishes = [...spread.map((d) => d.name), "Something else"]
+const dishes = [...formDishes, "Something else"]
 
 type Field = "name" | "phone"
 type Errors = Partial<Record<Field, string>>
@@ -26,7 +27,7 @@ const validate = (name: string, phone: string): Errors => {
 
 const chip = (on: boolean) =>
   `inline-flex min-h-[44px] cursor-pointer items-center rounded-[4px] border-2 px-4 font-semibold transition-colors duration-150 peer-focus-visible:outline peer-focus-visible:outline-[3px] peer-focus-visible:outline-offset-2 peer-focus-visible:outline-red ${
-    on ? "border-coal bg-coal text-cream" : "border-coal/30 bg-white hover:border-coal"
+    on ? "border-coal bg-coal text-cream" : "border-coal/55 bg-white hover:border-coal"
   }`
 
 export function EventForm() {
@@ -41,8 +42,24 @@ export function EventForm() {
   const [touched, setTouched] = useState<Partial<Record<Field, boolean>>>({})
   const [message, setMessage] = useState<string | null>(null)
   const [copied, setCopied] = useState(false)
+  const [minDate, setMinDate] = useState<string | undefined>(undefined)
+  // After sending, focus the success heading; after "Edit details", focus the name field again.
+  const [focusNext, setFocusNext] = useState<"done" | "name" | null>(null)
   const nameRef = useRef<HTMLInputElement>(null)
   const phoneRef = useRef<HTMLInputElement>(null)
+  const doneRef = useRef<HTMLHeadingElement>(null)
+
+  // Today's date as the earliest pickable day. Set after mount so server and client markup match.
+  useEffect(() => {
+    const d = new Date()
+    setMinDate(`${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`)
+  }, [])
+
+  useEffect(() => {
+    if (focusNext === "done") doneRef.current?.focus()
+    if (focusNext === "name") nameRef.current?.focus()
+    if (focusNext) setFocusNext(null)
+  }, [focusNext])
 
   const blur = (f: Field) => {
     setTouched((t) => ({ ...t, [f]: true }))
@@ -69,13 +86,17 @@ export function EventForm() {
   const submit = (e: FormEvent) => {
     e.preventDefault()
     const found = validate(name, phone)
-    setErrors(found)
-    setTouched({ name: true, phone: true })
+    // Render the error messages first so the focused field is announced with its error.
+    flushSync(() => {
+      setErrors(found)
+      setTouched({ name: true, phone: true })
+    })
     if (found.name) return nameRef.current?.focus()
     if (found.phone) return phoneRef.current?.focus()
     const text = compose()
     setMessage(text)
     setCopied(false)
+    setFocusNext("done")
     window.location.href = site.smsBase + encodeURIComponent(text)
   }
 
@@ -92,7 +113,9 @@ export function EventForm() {
   if (message) {
     return (
       <div role="status" aria-live="polite">
-        <p className="display text-d3">Your text is ready.</p>
+        <h2 ref={doneRef} tabIndex={-1} className="display text-d3 outline-none">
+          Your text is ready.
+        </h2>
         <p className="mt-4 max-w-[44ch]">
           Your messages app should be open with everything filled in, addressed to {site.phoneDisplay}. Press send there and Krave Bk gets it.
         </p>
@@ -105,7 +128,13 @@ export function EventForm() {
           <a href={site.phoneHref} className="btn-line text-coal">
             Call {site.phoneDisplay}
           </a>
-          <button type="button" onClick={() => setMessage(null)} className="link-under inline-flex min-h-[44px] items-center px-2 font-bold">
+          <button
+            type="button"
+            onClick={() => {
+              setMessage(null)
+              setFocusNext("name")
+            }}
+            className="link-under inline-flex min-h-[44px] items-center px-2 font-bold">
             Edit details
           </button>
         </div>
@@ -115,11 +144,14 @@ export function EventForm() {
 
   const input =
     "mt-2 block min-h-[52px] w-full rounded-[4px] border-2 bg-white px-4 text-[1.05rem] text-coal outline-none transition-colors focus:border-coal"
-  const err = (f: Field) => (shown(f) ? "border-red" : "border-coal/25")
+  const err = (f: Field) => (shown(f) ? "border-red" : "border-coal/55")
 
   return (
-    <form noValidate onSubmit={submit} aria-describedby="form-how">
-      <p id="form-how" className="max-w-[46ch] text-[1.02rem]">
+    <form noValidate onSubmit={submit} aria-labelledby="form-title" aria-describedby="form-how">
+      <h2 id="form-title" className="display text-d3">
+        Send the details
+      </h2>
+      <p id="form-how" className="mt-4 max-w-[46ch] text-[1.02rem]">
         Fill this in and we&rsquo;ll write the text for you. It opens in your messages app, addressed to Krave Bk. Nothing is sent until you press send.
       </p>
 
@@ -138,13 +170,15 @@ export function EventForm() {
               if (touched.name) setErrors(validate(e.target.value, phone))
             }}
             onBlur={() => blur("name")}
+            aria-required="true"
             aria-invalid={!!shown("name")}
             aria-describedby={shown("name") ? "f-name-err" : undefined}
             className={`${input} ${err("name")}`}
           />
           {shown("name") ? (
             <p id="f-name-err" className="mt-2 font-bold text-red">
-              ! {shown("name")}
+              <span aria-hidden="true">! </span>
+              {shown("name")}
             </p>
           ) : null}
         </div>
@@ -164,13 +198,15 @@ export function EventForm() {
               if (touched.phone) setErrors(validate(name, e.target.value))
             }}
             onBlur={() => blur("phone")}
+            aria-required="true"
             aria-invalid={!!shown("phone")}
             aria-describedby={shown("phone") ? "f-phone-err" : undefined}
             className={`${input} ${err("phone")}`}
           />
           {shown("phone") ? (
             <p id="f-phone-err" className="mt-2 font-bold text-red">
-              ! {shown("phone")}
+              <span aria-hidden="true">! </span>
+              {shown("phone")}
             </p>
           ) : null}
         </div>
@@ -178,7 +214,7 @@ export function EventForm() {
           <label htmlFor="f-date" className="font-bold">
             Event date
           </label>
-          <input id="f-date" type="date" value={date} onChange={(e) => setDate(e.target.value)} className={`${input} border-coal/25`} />
+          <input id="f-date" type="date" min={minDate} value={date} onChange={(e) => setDate(e.target.value)} className={`${input} border-coal/55`} />
         </div>
         <div>
           <label htmlFor="f-guests" className="font-bold">
@@ -191,7 +227,7 @@ export function EventForm() {
             min={1}
             value={guests}
             onChange={(e) => setGuests(e.target.value)}
-            className={`${input} border-coal/25`}
+            className={`${input} border-coal/55`}
           />
         </div>
       </div>
@@ -200,7 +236,7 @@ export function EventForm() {
         <legend className="font-bold">What&rsquo;s the occasion</legend>
         <div className="mt-3 flex flex-wrap gap-2">
           {eventTypes.map((t) => (
-            <label key={t}>
+            <label key={t} className="relative">
               <input
                 type="radio"
                 name="type"
@@ -221,7 +257,7 @@ export function EventForm() {
           {dishes.map((d) => {
             const on = picked.includes(d)
             return (
-              <label key={d}>
+              <label key={d} className="relative">
                 <input
                   type="checkbox"
                   value={d}
@@ -246,7 +282,7 @@ export function EventForm() {
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
           placeholder="Where it is, timing, dietary needs"
-          className={`${input} min-h-[120px] border-coal/25 py-3`}
+          className={`${input} min-h-[120px] border-coal/55 py-3`}
         />
       </div>
 
